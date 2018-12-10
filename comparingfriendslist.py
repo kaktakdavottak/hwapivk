@@ -6,8 +6,8 @@ class User:
     def __init__(self, user_id):
         self.user_id = user_id
 
-    def print(self):
-        print('https://vk.com/id' + self.user_id)
+    def __str__(self):
+        return 'https://vk.com/id' + self.user_id
 
     def friends(self):
         params = {
@@ -23,16 +23,16 @@ class User:
             friends_set.add(friend['id'])
         return friends_set
 
-
-def get_mutual_friends():
-    compared_friends = list(user1.friends() & user2.friends())
-    user_list = [User(i) for i in compared_friends]
-    return user_list
+    def __and__(self, other):
+        compared_friends = list(self.friends() & other.friends())
+        user_list = [User(i) for i in compared_friends]
+        print(user_list)
 
 
 if __name__ == "__main__":
     user1 = User('4133803')
     user2 = User('4329052')
-    user1.print()
-    user2.print()
-    print(get_mutual_friends())
+    user1 & user2
+    print(user1)
+    print(user2)
+
